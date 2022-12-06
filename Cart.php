@@ -19,16 +19,18 @@ class Cart
      skall istället quantity på cartitem ökas.
      */
     public function addProduct($product)
-    {
+   {  
+        $cartItem =$this->items[$product->getId()] ?? null;
 
+        if ($cartItem === null) {
+            $cartItem = New CartItem($product, 0);
+            
+        $this->items[$product->getId()] = $cartItem; 
+        //skicka in cartitem till items arrayen
+        }
 
-        //if sats product id= product id ++ cartitem quantity
-
-        $cartItem = new CartItem($product, 1); // ändra detta för VG
-
-
-        
-        $this->items[$product->getId()] = $cartItem;    //plockar ut
+        $cartItem -> increaseQuantity ();
+    
         return $cartItem;
     }
 
@@ -51,7 +53,6 @@ class Cart
             $totQty = 0+$calcQty;
             return $totQty;
         }
-
     }
 
     //Skall räkna ihop totalsumman för alla produkter i kundvagnen
